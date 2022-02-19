@@ -1,5 +1,4 @@
 from pygame import *
-
 finish = False
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed):
@@ -17,10 +16,10 @@ class Player1(GameSprite):
     def update(self):
         keys_pressed = key.get_pressed()
 
-        if keys_pressed[K_DOWN]:
+        if keys_pressed[K_DOWN] and self.rect.y < 445:
             self.rect.y += 3
     
-        if keys_pressed[K_UP]:
+        if keys_pressed[K_UP] and self.rect.y > 5:
             self.rect.y -= 3
 
 
@@ -28,11 +27,16 @@ class Player2(GameSprite):
     def update(self):
         keys_pressed = key.get_pressed()
 
-        if keys_pressed[K_s]:
+        if keys_pressed[K_s] and self.rect.y < 445:
             self.rect.y += 3
     
-        if keys_pressed[K_w]:
+        if keys_pressed[K_w] and self.rect.y > 5:
             self.rect.y -= 3
+
+class Ball(GameSprite):
+    def update(self):
+        pass
+
 
 window = display.set_mode((700, 500))
 display.set_caption("GD против Brawl Stars")
@@ -41,6 +45,7 @@ clock = time.Clock()
 
 platform1 = Player1("UFO1.png", 10, 100, 3)
 platform2 = Player2("UFO2.png", 640, 100, 3)
+ball = Ball("Ball.png", 300, 300, 3)
 background = transform.scale(image.load("polyana.jpg"), (700, 500))
 game = True
 
@@ -56,6 +61,8 @@ while game:
         platform1.reset()
         platform2.update()
         platform2.reset()
+        ball.reset()
+        ball.update()
 
     clock.tick(240)
 
